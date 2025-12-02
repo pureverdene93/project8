@@ -1,6 +1,11 @@
 "use client";
 
-export const ModelFooter = ({ title, description, icon }) => {
+type Props = {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+};
+export const ModelFooter = ({ title, description, icon }: Props) => {
   return (
     <div className="w-full flex flex-col gap-2">
       <p className="flex items-center gap-2">

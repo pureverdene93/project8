@@ -1,8 +1,11 @@
 "use client";
 import { RefreshIcon } from "../_icons/refreshIcon";
 import { StarIcon } from "../_icons/starIcon";
+type Props = {
+  title: string;
+};
 
-export const ModelHeader = ({ title }) => {
+export const ModelHeader = ({ title }: Props) => {
   return (
     <div className="w-full h-10 flex items-center justify-between">
       <p className="flex items-center gap-2">
