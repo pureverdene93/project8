@@ -2,7 +2,7 @@
 
 type Props = {
   title: string;
-  description: string;
+  description: any;
   icon: React.ReactNode;
 };
 export const ModelFooter = ({ title, description, icon }: Props) => {
@@ -12,7 +12,7 @@ export const ModelFooter = ({ title, description, icon }: Props) => {
         {icon}
         <span className="text-[20px] font-semibold text-black">{title}</span>
       </p>
-      <div className="w-full min-h-10 rounded-lg border border-zinc-200 pl-3 pr-3 pt-2 pb-2 text-[14px] font-normal text-[#71717a]">
+      <div className="w-full flex items-center min-h-10 rounded-lg border border-zinc-200 pl-3 pr-3 pt-2 pb-2 text-[14px] font-normal text-[#71717a]">
         {description}
       </div>
     </div>
