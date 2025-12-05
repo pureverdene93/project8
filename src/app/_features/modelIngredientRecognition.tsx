@@ -5,10 +5,66 @@ import { ModelDescription } from "../_components/modelDescription";
 import { ModelFooter } from "../_components/modelFooter";
 import { ModelHeader } from "../_components/modelHeader";
 import { DocumentIcon } from "../_icons/documentIcon";
+import { Spinner } from "@/components/ui/spinner";
 
 export const ModelIngredientRecognition = () => {
-  const [ingredient, setIngredient] = useState("");
-  console.log(ingredient);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [res, setRes] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const data = await (
+        await fetch("api/ingredientRecognition", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ food: text }),
+        })
+      ).json();
+
+      if (data) {
+        setRes(data);
+      }
+      if (!data) {
+        setError("Something went wrong 😓");
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(res);
+
+  const candidates = res.response?.candidates?.map((data) => {
+    return data.content;
+  });
+  const parts = candidates?.map((data) => {
+    return data.parts[0];
+  });
+  const response = parts?.map((data) => {
+    return data.text;
+  });
+
+  const renderDescription = () => {
+    if (loading === true) {
+      return (
+        <p className="flex justify-center items-center gap-1">
+          <Spinner className="size-4" /> Generating ingredients
+        </p>
+      );
+    }
+    if (error) {
+      return error;
+    }
+    if (!res) {
+      return "First, enter your text to recognize an ingredients.";
+    }
+    if (res) {
+      return response;
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -20,15 +76,16 @@ export const ModelIngredientRecognition = () => {
         <textarea
           placeholder="Describe recognition"
           className="outline-none w-full h-[124px] rounded-lg border border-zinc-200 text-[14px] font-regular text-[#18181B] pl-3 pr-3 pb-2 pt-2"
-          onChange={(e) => setIngredient(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
         />
         <GenerateButton
-          changeStyle={ingredient.length > 0 ? "bg-black" : "bg-[#71717a]"}
+          onClick={handleSubmit}
+          changeStyle={text.length > 0 ? "bg-black" : "bg-[#71717a]"}
         />
       </div>
       <ModelFooter
         title={"Identified Ingredients"}
-        description={"First, enter your text to recognize an ingredients."}
+        description={renderDescription()}
         icon={<DocumentIcon />}
       />
     </div>

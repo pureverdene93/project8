@@ -8,7 +8,7 @@ export const ChatAssistant = () => {
   return (
     <div className="w-full flex items-center justify-end">
       {state === true ? (
-        <ChatSection />
+        <ChatSection changeState={() => setState(false)} />
       ) : (
         <button
           className="w-12 h-12 bg-black rounded-full flex items-center justify-center cursor-pointer mb-9 mr-9"
