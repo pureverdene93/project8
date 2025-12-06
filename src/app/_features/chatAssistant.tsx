@@ -6,7 +6,7 @@ import { ChatSection } from "../_components/chatSection";
 export const ChatAssistant = () => {
   const [state, setState] = useState(false);
   return (
-    <div className="w-full flex items-center justify-end">
+    <div className="w-full flex items-center justify-end pr-9 pb-9">
       {state === true ? (
         <ChatSection changeState={() => setState(false)} />
       ) : (
