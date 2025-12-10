@@ -12,7 +12,7 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
   const [artcileContent, setArticleContent] = useState("");
   return (
     <div className="w-full h-full bg-zinc-100 flex justify-center pt-12">
-      <div className="w-[856px] max-h-[618px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
+      <div className="w-[856px] h-[442px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           <Title title="Article Quiz Generator" />
           <p className="text-zinc-400 text-[16px] font-normal">

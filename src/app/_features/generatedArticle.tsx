@@ -1,12 +1,17 @@
+"use client";
+import { useState } from "react";
 import { Title } from "../_components/title";
 import { PreIcon } from "../_icons/preIcon";
 import { SummarizedIcon } from "../_icons/summarizedIcon";
+import { ContextHistory } from "../_components/contentHistory";
 
 type MyProps = {
   goPrev: () => void;
+  takeTest: () => void;
 };
 
-export const GeneratedArticle = ({ goPrev }: MyProps) => {
+export const GeneratedArticle = ({ goPrev, takeTest }: MyProps) => {
+  const [state, setState] = useState(false);
   return (
     <div className="w-full h-full flex flex-col bg-zinc-100 pt-12 items-center gap-6">
       <div className="flex justify-start w-[856px]">
@@ -41,14 +46,21 @@ export const GeneratedArticle = ({ goPrev }: MyProps) => {
           </div>
         </div>
         <div className="flex w-[800px] justify-between items-center">
-          <button className="w-[113px] h-10 border border-zinc-200 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-black">
+          <button
+            className="w-[113px] h-10 border border-zinc-200 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-black"
+            onClick={() => setState(true)}
+          >
             See content
           </button>
-          <button className="w-[108px] bg-black h-10 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-white">
+          <button
+            className="w-[108px] bg-black h-10 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-white"
+            onClick={takeTest}
+          >
             Take a quiz
           </button>
         </div>
       </div>
+      {state && <ContextHistory closeModal={() => setState(false)} />}
     </div>
   );
 };

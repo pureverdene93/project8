@@ -5,6 +5,8 @@ import { ArticleGenerator } from "./articleGenerator";
 
 import { SideBarOpened } from "./sideBarOpened";
 import { GeneratedArticle } from "./generatedArticle";
+import { QuickTest } from "./quickTest";
+import { TestResult } from "./testResult";
 
 export const SideBarAndGenerator = () => {
   const [sideBarState, setSideBarState] = useState(false);
@@ -24,7 +26,16 @@ export const SideBarAndGenerator = () => {
         </div>
       )}
       {step === 1 && <ArticleGenerator generateFinished={() => setStep(2)} />}
-      {step === 2 && <GeneratedArticle goPrev={() => setStep(1)} />}
+      {step === 2 && (
+        <GeneratedArticle
+          goPrev={() => setStep(1)}
+          takeTest={() => setStep(3)}
+        />
+      )}
+      {step === 3 && <QuickTest seeResult={() => setStep(4)} />}
+      {step === 4 && (
+        <TestResult backToHome={() => setStep(1)} restart={() => setStep(3)} />
+      )}
     </div>
   );
 };
