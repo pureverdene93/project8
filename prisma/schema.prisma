@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      =  env("DATABASE_URL")
+}
+
+model Article {
+  id String @id @default(cuid())
+  title String
+  content String
+  summary String
+  userId String
+  user User
+  createdt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quies Quiz[]
+}
+
+model User {
+  id String @id @default(cuid())
+  clerkId String @unique
+  email String @unique
+  name String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  articles Article[]
+  quizAttempts QuizAttempt[]
+  userScores userScore[]
+}
+
+model Quiz {
+  id String @id @default(cuid())
+  question String
+  options String[]
+  answer String
+  articleId String
+  article Article @relation(fields: [articleId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  QuizAttempts QuizAttempt[]
+  userScores UserScore[]
+}

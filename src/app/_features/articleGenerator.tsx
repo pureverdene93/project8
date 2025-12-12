@@ -10,9 +10,38 @@ type MyProps = {
 export const ArticleGenerator = ({ generateFinished }: MyProps) => {
   const [articleTitle, setArticleTitle] = useState("");
   const [artcileContent, setArticleContent] = useState("");
+  const [quiz, setQuiz] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  console.log(artcileContent, "content");
+  console.log(articleTitle, "title");
+
+  const quizGenerator = async () => {
+    if (!artcileContent) return;
+    if (!articleTitle) return;
+    setLoading(true);
+    try {
+      const data = await (
+        await fetch("/api/generater", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            articleTitle: articleTitle,
+            articleContent: artcileContent,
+          }),
+        })
+      ).json();
+      setQuiz(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="w-full h-full bg-zinc-100 flex justify-center pt-12">
-      <div className="w-[856px] h-[442px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
+      <div className="w-[856px] min-h-[442px] max-h-[718px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           <Title title="Article Quiz Generator" />
           <p className="text-zinc-400 text-[16px] font-normal">
@@ -38,7 +67,7 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
             Article content
           </p>
           <textarea
-            className="outline-none border border-zinc-200 w-[800px] min-h-[120px] max-h-[296px] rounded-lg text-[14px] font-normal text-black flex justify-start px-3 py-2 resize-none"
+            className="outline-none border border-zinc-200 w-[800px] min-h-[120px] max-h-[385px] rounded-lg text-[14px] font-normal text-black flex justify-start px-3 py-2 resize-none"
             placeholder="Paste your article content here..."
             onInput={(e) => {
               const target = e.target as HTMLTextAreaElement;
@@ -55,7 +84,7 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
                 ? "bg-black"
                 : "bg-zinc-200"
             }`}
-            onClick={generateFinished}
+            onClick={quizGenerator}
           >
             Generate summary
           </button>

@@ -1,11 +1,15 @@
+"use client";
+import { useState } from "react";
 import { Title } from "../_components/title";
 import { ExitIcon } from "../_icons/exitIcon";
+import { RestartQuiz } from "../_components/restartQuiz";
 
 type MyProps = {
   seeResult: () => void;
 };
 
 export const QuickTest = ({ seeResult }: MyProps) => {
+  const [restartQuizState, setRestartQuizState] = useState(false);
   return (
     <div className="w-full h-full bg-zinc-100 flex justify-center pt-[120px]">
       <div className="w-[558px] h-72 gap-5 flex flex-col">
@@ -16,9 +20,15 @@ export const QuickTest = ({ seeResult }: MyProps) => {
               Take a quick test about your knowledge from your content
             </p>
           </div>
-          <button className="bg-white w-12 h-10 border border-zinc-200 rounded-lg cursor-pointer flex items-center justify-center">
+          <button
+            className="bg-white w-12 h-10 border border-zinc-200 rounded-lg cursor-pointer flex items-center justify-center"
+            onClick={() => setRestartQuizState(true)}
+          >
             <ExitIcon />
           </button>
+          {restartQuizState && (
+            <RestartQuiz goBack={() => setRestartQuizState(false)} />
+          )}
         </div>
         <div className="bg-white w-[558px] h-[200px] rounded-lg border border-zinc-200 p-7 flex flex-col gap-5">
           <div className="flex items-center justify-between">

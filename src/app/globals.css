@@ -27,25 +27,33 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
+
+@keyframes sidebar-open {
+  0% {
+    width: 72px;
+    opacity: 0;
+  }
+  100% {
+    width: 300px;
+    opacity: 1;
+  }
+}
+
+@keyframes sidebar-close {
+  0% {
+    width: 300px;
+    opacity: 1;
+  }
+  100% {
+    width: 72px;
+    opacity: 0;
+  }
+}
+
 .animate-slideIn {
-  animation: slideIn 0.35s ease-out forwards;
+  animation: sidebar-open 0.35s ease forwards;
 }
+
 .animate-slideOut {
-  animation: slideOut 0.35s ease-out forwards;
-}
-@keyframes slideOut {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-@keyframes slideIn {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  animation: sidebar-close 0.35s ease forwards;
 }
