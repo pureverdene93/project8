@@ -41,7 +41,7 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
 
   return (
     <div className="w-full h-full bg-zinc-100 flex justify-center pt-12">
-      <div className="w-[856px] min-h-[442px] max-h-[718px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
+      <div className="w-[856px] h-[458px] border border-zinc-200 bg-white rounded-lg p-7 flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           <Title title="Article Quiz Generator" />
           <p className="text-zinc-400 text-[16px] font-normal">
@@ -69,11 +69,11 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
           <textarea
             className="outline-none border border-zinc-200 w-[800px] min-h-[120px] max-h-[385px] rounded-lg text-[14px] font-normal text-black flex justify-start px-3 py-2 resize-none"
             placeholder="Paste your article content here..."
-            onInput={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              target.style.height = "auto";
-              target.style.height = `${target.scrollHeight}px`;
-            }}
+            // onInput={(e) => {
+            //   const target = e.target as HTMLTextAreaElement;
+            //   target.style.height = "auto";
+            //   target.style.height = `${target.scrollHeight}px`;
+            // }}
             onChange={(e) => setArticleContent(e.target.value)}
           />
         </div>

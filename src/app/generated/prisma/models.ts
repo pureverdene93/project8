@@ -8,6 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Article'
 export type * from './models/User'
-export type * from './models/Post'
+export type * from './models/Quiz'
+export type * from './models/QuizAttempt'
+export type * from './models/UserScore'
 export type * from './commonInputTypes'

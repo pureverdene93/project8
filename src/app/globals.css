@@ -28,7 +28,7 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-@keyframes sidebar-open {
+/* @keyframes sidebar-open {
   0% {
     width: 72px;
     opacity: 0;
@@ -56,4 +56,4 @@ body {
 
 .animate-slideOut {
   animation: sidebar-close 0.35s ease forwards;
-}
+} */
