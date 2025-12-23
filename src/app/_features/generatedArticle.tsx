@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Title } from "../_components/title";
 import { PreIcon } from "../_icons/preIcon";
 import { SummarizedIcon } from "../_icons/summarizedIcon";
 import { ContextHistory } from "../_components/contentHistory";
+import { Spinner } from "@/components/ui/spinner";
 
 type MyProps = {
   goPrev: () => void;
@@ -18,36 +20,25 @@ type ArticleData = {
 };
 
 export const GeneratedArticle = ({ goPrev, takeTest }: MyProps) => {
+  const router = useRouter();
   const [state, setState] = useState(false);
-  const [quiz, setQuiz] = useState([]);
   const [loading, setLoading] = useState(false);
   const [articleData, setArticleData] = useState<ArticleData | null>(null);
-  const [quizData, setQuizData] = useState([]);
 
   const fetchData = async () => {
-    const data = await (
-      await fetch("/api/articles", {
-        method: "GET",
-      })
-    ).json();
-    setArticleData(data);
-  };
-
-  const fetchQuizData = async () => {
-    if (!articleData) return;
-    const data = await (
-      await fetch(`/api/generate?articleId=${articleData.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    ).json();
-    setQuizData(data);
+    try {
+      const data = await (
+        await fetch("/api/articles", {
+          method: "GET",
+        })
+      ).json();
+      setArticleData(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const quizGenerator = async () => {
-    if (!articleData) return;
     setLoading(true);
     try {
       const data = await (
@@ -55,13 +46,13 @@ export const GeneratedArticle = ({ goPrev, takeTest }: MyProps) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            articleTitle: articleData.title,
-            articleContent: articleData.content,
-            articleId: articleData.id,
+            articleTitle: articleData?.title,
+            articleContent: articleData?.content,
+            articleId: articleData?.id,
           }),
         })
       ).json();
-      setQuiz(data);
+      router.push(`/quizzes/${articleData?.id}`);
     } catch (err) {
       console.error(err);
     } finally {
@@ -71,10 +62,11 @@ export const GeneratedArticle = ({ goPrev, takeTest }: MyProps) => {
 
   useEffect(() => {
     fetchData();
-    fetchQuizData();
   }, []);
 
   if (!articleData) return;
+
+  console.log(articleData, "article data is here");
 
   return (
     <div className="w-full h-full flex flex-col bg-zinc-100 pt-12 items-center gap-6">
@@ -108,10 +100,22 @@ export const GeneratedArticle = ({ goPrev, takeTest }: MyProps) => {
             See content
           </button>
           <button
-            className="w-[108px] bg-black h-10 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-white"
+            disabled={loading}
+            className={`min-w-[108px] h-10 rounded-lg flex justify-center items-center font-medium text-[14px] text-white px-3
+              ${
+                loading === true
+                  ? "bg-zinc-400 gap-2"
+                  : "cursor-pointer bg-black"
+              }`}
             onClick={quizGenerator}
           >
-            Take a quiz
+            {loading === true ? (
+              <>
+                <Spinner /> Generating...
+              </>
+            ) : (
+              "Take a quiz"
+            )}
           </button>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Title } from "../_components/title";
 import { ArticleIcon } from "../_icons/articleIcon";
+import { Spinner } from "@/components/ui/spinner";
 
 type MyProps = {
   generateFinished: () => void;
@@ -55,6 +56,7 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
             className="outline-none border border-zinc-200 w-[800px] min-h-10 max-h-10 rounded-lg text-[14px] font-normal text-black flex justify-start px-3 py-2"
             placeholder="Enter a title for your article..."
             onChange={(e) => setArticleTitle(e.target.value)}
+            disabled={loading}
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -65,24 +67,27 @@ export const ArticleGenerator = ({ generateFinished }: MyProps) => {
           <textarea
             className="outline-none border border-zinc-200 w-[800px] min-h-[120px] max-h-[385px] rounded-lg text-[14px] font-normal text-black flex justify-start px-3 py-2 resize-none"
             placeholder="Paste your article content here..."
-            // onInput={(e) => {
-            //   const target = e.target as HTMLTextAreaElement;
-            //   target.style.height = "auto";
-            //   target.style.height = `${target.scrollHeight}px`;
-            // }}
             onChange={(e) => setArticleContent(e.target.value)}
+            disabled={loading}
           />
         </div>
         <div className="w-[800px] flex items-center justify-end">
           <button
-            className={`w-40 h-10 rounded-lg flex items-center justify-center cursor-pointer text-[14px] text-white font-medium ${
+            className={`w-40 h-10 rounded-lg flex items-center justify-center text-[14px] text-white font-medium ${
               artcileContent.length > 0 && articleTitle.length > 0
                 ? "bg-black"
                 : "bg-zinc-200"
-            } ${loading === true && "bg-red-500"}`}
+            } ${loading === true ? "bg-zinc-400 gap-2" : "cursor-pointer"}`}
             onClick={returnArticle}
+            disabled={loading}
           >
-            Generate summary
+            {loading === true ? (
+              <>
+                <Spinner /> Generating...
+              </>
+            ) : (
+              "Generate summary"
+            )}
           </button>
         </div>
       </div>

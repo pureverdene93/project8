@@ -7,6 +7,7 @@ import { SummarizedIcon } from "@/app/_icons/summarizedIcon";
 import { ArticleIcon } from "@/app/_icons/articleIcon";
 import { ContextHistory } from "@/app/_components/contentHistory";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 type Article = {
   title: string;
@@ -17,7 +18,7 @@ type Article = {
 export const Contents = () => {
   const [articleData, setArticleData] = useState<Article | []>([]);
   const [quizData, setQuizData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState(false);
   const params = useParams();
   const router = useRouter();
@@ -135,12 +136,26 @@ export const Contents = () => {
               })}
           </div>
         </div>
-        <button
-          className="w-[124px] h-10 bg-black rounded-lg text-white cursor-pointer flex items-center justify-center text-[14px] font-medium"
-          onClick={quizGenerator}
-        >
-          Take a quiz
-        </button>
+        <div className="h-fit w-full flex justify-start">
+          <button
+            disabled={loading}
+            className={`min-w-[108px] h-10 rounded-lg flex justify-center items-center font-medium text-[14px] text-white px-3
+              ${
+                loading === true
+                  ? "bg-zinc-400 gap-2"
+                  : "cursor-pointer bg-black"
+              }`}
+            onClick={quizGenerator}
+          >
+            {loading === true ? (
+              <>
+                <Spinner /> Generating...
+              </>
+            ) : (
+              "Take a quiz"
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
