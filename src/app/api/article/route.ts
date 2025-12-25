@@ -13,8 +13,8 @@ export const POST = async (req: Request) => {
     });
     return Response.json(create);
   } catch (err) {
-    console.log(err, "server error");
-    return Response.json("server error", { status: 500 });
+    console.error(err);
+    return Response.json({ err: "server error" }, { status: 500 });
   }
 };
 export const GET = async (req: Request) => {

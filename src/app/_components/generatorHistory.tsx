@@ -1,40 +1,38 @@
 "use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type Article = {
   title: string;
   id: string;
+  createdt: Date;
 };
 
 export const GeneratorHistoy = () => {
   const router = useRouter();
   const [articleData, setArticleData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(false);
+
   const fetchData = async () => {
     setLoading(true);
     const controller = new AbortController();
-    const timeOutId = setTimeout(() => {
-      controller.abort();
-    }, 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     try {
-      const data = await (
-        await fetch(`/api/getArticlesByUserId?userId=test1`, {
-          method: "GET",
-          signal: controller.signal,
-        })
-      ).json();
+      const res = await fetch(`/api/getArticlesByUserId?userId=test1`, {
+        signal: controller.signal,
+      });
+      const data = await res.json();
       setArticleData(data.articles);
     } catch (err: any) {
       if (err.name === "AbortError") {
-        console.error("Fetch timeOut");
+        console.error("Fetch timeout");
       } else {
-        console.error(err, "client error");
+        console.error(err);
       }
     } finally {
-      clearTimeout(timeOutId);
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   };
@@ -43,32 +41,59 @@ export const GeneratorHistoy = () => {
     fetchData();
   }, []);
 
+  const now = new Date();
+
+  const getLabel = (createdAt: Date) => {
+    const diffMs = now.getTime() - new Date(createdAt).getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) {
+      const weeks = Math.floor(diffDays / 7);
+      return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+    }
+
+    const months = Math.floor(diffDays / 30);
+    return `${months} month${months > 1 ? "s" : ""} ago`;
+  };
+
+  const groupedArticles = articleData.reduce(
+    (acc: Record<string, Article[]>, article) => {
+      const label = getLabel(article.createdt);
+      if (!acc[label]) acc[label] = [];
+      acc[label].push(article);
+      return acc;
+    },
+    {}
+  );
+
   return (
     <div className="flex flex-col gap-5">
-      {loading === true ? (
+      {loading ? (
         <div className="flex flex-col gap-5">
           <Skeleton className="h-[21px] w-[100px]" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
-          <Skeleton className="h-6 w-[200px] pl-2" />
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-6 w-[200px] pl-2" />
+          ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-1">
-          <p className="font-normal text-[14px] text-zinc-400">Today</p>
-          {articleData.map((data, index) => {
-            return (
-              <button
-                className="font-medium text-[16px] text-black w-[268px] text-start justify-start flex pl-2 cursor-pointer"
-                key={index}
-                onClick={() => router.push(`/history/${data.id}`)}
-              >
-                {data.title}
-              </button>
-            );
-          })}
+        <div className="flex flex-col gap-4">
+          {Object.entries(groupedArticles).map(([label, articles]) => (
+            <div key={label} className="flex flex-col gap-1">
+              <p className="font-normal text-[14px] text-zinc-400">{label}</p>
+              {articles.map((data) => (
+                <button
+                  key={data.id}
+                  className="w-fit font-medium text-[16px] text-black text-start flex pl-2 cursor-pointer btn-underline"
+                  onClick={() => router.push(`/history/${data.id}`)}
+                >
+                  {data.title}
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
       )}
     </div>

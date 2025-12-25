@@ -72,9 +72,13 @@ export const ArticleGenerator = () => {
           <button
             className={`w-40 h-10 rounded-lg flex items-center justify-center text-[14px] text-white font-medium ${
               artcileContent.length > 0 && articleTitle.length > 0
-                ? "bg-black"
+                ? "bg-black btn-shadcn"
                 : "bg-zinc-200"
-            } ${loading === true ? "bg-zinc-400 gap-2" : "cursor-pointer"}`}
+            } ${
+              loading === true
+                ? "bg-zinc-400 gap-2"
+                : "cursor-pointer btn-shadcn"
+            }`}
             onClick={returnArticle}
             disabled={loading}
           >

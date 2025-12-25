@@ -77,7 +77,7 @@ export const QuickTestFromHistory = ({
             </div>
           </div>
         ) : (
-          <div className="bg-white h-fit w-fit rounded-lg border border-zinc-200 p-7 flex flex-col gap-5">
+          <div className="bg-white h-fit w-fit min-w-[558px] rounded-lg border border-zinc-200 p-7 flex flex-col gap-5">
             <div className="flex items-center gap-12 w-full">
               <p className="text-black text-[20px] font-medium">
                 {data?.question}
@@ -95,7 +95,7 @@ export const QuickTestFromHistory = ({
                   <button
                     key={index}
                     onClick={() => handleSelect(options)}
-                    className="min-w-[243px] h-10 px-4 rounded-lg border border-zinc-200 text-black text-[14px] font-medium flex items-center justify-center 
+                    className="cursor-pointer min-w-[243px] h-10 px-4 rounded-lg border border-zinc-200 text-black text-[14px] font-medium flex items-center justify-center 
                     transition-all duration-300 ease-out bg-white hover:bg-black hover:text-white hover:border-black hover:-translate-y-0.5  hover:shadow-[0_10px_25px_-10px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.98]"
                   >
                     {options}

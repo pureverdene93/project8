@@ -94,7 +94,7 @@ export const SummarySection = ({ goPrev }: MyProps) => {
         </div>
         <div className="flex w-[800px] justify-between items-center">
           <button
-            className="w-[113px] h-10 border border-zinc-200 rounded-lg cursor-pointer flex justify-center items-center font-medium text-[14px] text-black"
+            className="w-[120px] h-10 border border-zinc-200 rounded-lg cursor-pointer flex justify-center font-medium text-[14px] text-black btn-shadcn btn-outline"
             onClick={() => setState(true)}
           >
             See content
@@ -105,7 +105,7 @@ export const SummarySection = ({ goPrev }: MyProps) => {
               ${
                 loading === true
                   ? "bg-zinc-400 gap-2"
-                  : "cursor-pointer bg-black"
+                  : "cursor-pointer bg-black btn-shadcn"
               }`}
             onClick={quizGenerator}
           >

@@ -1,6 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useEffect } from "react";
 import { SideBarIcon } from "../_icons/sideBarIcon";
 import { GeneratorHistoy } from "../_components/generatorHistory";
 type MyProps = {

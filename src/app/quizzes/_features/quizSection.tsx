@@ -44,7 +44,7 @@ export const QuizSection = () => {
   };
   useEffect(() => {
     getQuizzes();
-  }, []);
+  }, [step]);
 
   const nextTest = () => {
     setCurrentIndex(currentIndex + 1);
@@ -83,8 +83,10 @@ export const QuizSection = () => {
       )}
       {step === 4 && (
         <TestResult
+          restartQuiz={() => setStep(1)}
+          fetch={getQuizzes}
           backToHome={() => router.push("/")}
-          restart={() => router.push("/")}
+          currentIndex={() => setCurrentIndex(0)}
         />
       )}
     </div>

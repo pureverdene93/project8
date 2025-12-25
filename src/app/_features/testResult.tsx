@@ -8,8 +8,11 @@ import { RestartIcon } from "../_icons/restartIcon";
 
 type MyProps = {
   backToHome: () => void;
-  restart: () => void;
+  restartQuiz: () => void;
+  fetch: () => void;
+  currentIndex: () => void;
 };
+
 type MyResults = {
   question: string;
   yourAnswer: string;
@@ -17,7 +20,12 @@ type MyResults = {
   correct: boolean;
 };
 
-export const TestResult = ({ backToHome, restart }: MyProps) => {
+export const TestResult = ({
+  backToHome,
+  restartQuiz,
+  fetch,
+  currentIndex,
+}: MyProps) => {
   const [results, setResults] = useState<MyResults[]>([]);
 
   useEffect(() => {
@@ -26,6 +34,18 @@ export const TestResult = ({ backToHome, restart }: MyProps) => {
       setResults(JSON.parse(stored));
     }
   }, []);
+
+  const handleRestartQuiz = () => {
+    localStorage.removeItem("quick test");
+    restartQuiz();
+    currentIndex();
+    fetch();
+  };
+
+  const saveAndLeave = () => {
+    localStorage.removeItem("quick test");
+    backToHome();
+  };
 
   const numOfCorrAnswer = results.filter((cor) => cor.correct).length;
 
@@ -51,14 +71,14 @@ export const TestResult = ({ backToHome, restart }: MyProps) => {
         </div>
         <div className="w-full flex justify-between">
           <button
-            className="w-44 h-10 border border-zinc-200 cursor-pointer flex justify-center items-center text-black font-medium rounded-lg gap-2"
-            onClick={restart}
+            className="w-44 h-10 border border-zinc-200 bg-white cursor-pointer flex justify-center items-center text-black font-medium gap-2 btn-shadcn btn-outline"
+            onClick={handleRestartQuiz}
           >
             <RestartIcon /> Restart quiz
           </button>
           <button
-            className="bg-black w-44 h-10 cursor-pointer flex justify-center items-center text-white font-medium rounded-lg gap-2"
-            onClick={backToHome}
+            className="bg-black w-44 h-10 cursor-pointer flex justify-center items-center text-white font-medium rounded-lg gap-2 btn-shadcn"
+            onClick={saveAndLeave}
           >
             <BookMarkIcon /> Save and leave
           </button>
