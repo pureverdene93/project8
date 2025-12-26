@@ -17,7 +17,10 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.log(err);
-    return NextResponse.json({ err }, { status: 500 });
+    console.log(err, "psda zailoo alaa har gichii min pyzda lalar");
+    return NextResponse.json(
+      { err: "psda zail2 gichii zail psda" },
+      { status: 500 }
+    );
   }
 }
