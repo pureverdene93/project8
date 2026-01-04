@@ -11,15 +11,16 @@ export const POST = async (req: NextRequest) => {
         clerkId: userData.id,
       },
       update: {
-        email: userData.email,
-        name: userData.fullName,
+        email: userData.id,
+        name: userData.id,
       },
       create: {
-        clerkId: userData.id,
-        email: userData.email,
-        name: userData.fullName,
+        clerkId: "djfhvbhfb",
+        email: "ufhguerh",
+        name: "dgfvuefgvuyg",
       },
     });
+    return NextResponse.json({ user: newUser }, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ err }, { status: 500 });
