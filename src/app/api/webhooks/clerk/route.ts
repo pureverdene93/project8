@@ -11,13 +11,13 @@ export const POST = async (req: NextRequest) => {
         clerkId: userData.id,
       },
       update: {
-        email: userData.id,
-        name: userData.id,
+        email: "psda",
+        name: "psda",
       },
       create: {
-        clerkId: "djfhvbhfb",
-        email: "ufhguerh",
-        name: "dgfvuefgvuyg",
+        clerkId: "ene haragdaach pyzda",
+        email: "ene haragdaach lalraa",
+        name: "zailoo muu gichii",
       },
     });
     console.log(userData, "this is user data");
