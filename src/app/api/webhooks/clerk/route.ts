@@ -20,6 +20,8 @@ export const POST = async (req: NextRequest) => {
         name: "dgfvuefgvuyg",
       },
     });
+    console.log(userData, "this is user data");
+
     return NextResponse.json({ user: newUser }, { status: 200 });
   } catch (err) {
     console.error(err);
