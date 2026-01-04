@@ -5,26 +5,19 @@ import { verifyWebhook } from "@clerk/nextjs/webhooks";
 export const POST = async (req: NextRequest) => {
   try {
     const event = await verifyWebhook(req);
-    const userData = event.data;
-    const newUser = await prisma.user.upsert({
-      where: {
-        clerkId: userData.id,
-      },
-      update: {
-        email: "psda",
-        name: "psda",
-      },
-      create: {
-        clerkId: "ene haragdaach pyzda",
-        email: "ene haragdaach lalraa",
-        name: "zailoo muu gichii",
-      },
-    });
-    console.log(userData, "this is user data");
-
-    return NextResponse.json({ user: newUser }, { status: 200 });
+    if (event.type === "user.created") {
+      const user = event.data;
+      await prisma.user.create({
+        data: {
+          clerkId: user.id,
+          email: user.email_addresses?.[0]?.email_address ?? "",
+          name: user.first_name + " " + user.last_name,
+        },
+      });
+    }
+    return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error(err);
+    console.error(err, "error from server");
     return NextResponse.json({ err }, { status: 500 });
   }
 };

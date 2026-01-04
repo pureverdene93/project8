@@ -4,33 +4,12 @@ import { useEffect, useState } from "react";
 import { Title } from "../_components/title";
 import { ArticleIcon } from "../_icons/articleIcon";
 import { Spinner } from "@/components/ui/spinner";
-import { useUser } from "@clerk/nextjs";
 
 export const ArticleGenerator = () => {
   const router = useRouter();
   const [articleTitle, setArticleTitle] = useState("");
   const [artcileContent, setArticleContent] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const { user } = useUser();
-
-  // const addUser = async () => {
-  //   await (
-  //     await fetch("api/webhooks/clerk", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         clerkId: user?.id,
-  //         email: user?.emailAddresses[0].emailAddress,
-  //         name: user?.fullName,
-  //       }),
-  //     })
-  //   ).json();
-  // };
-
-  // useEffect(() => {
-  //   addUser();
-  // }, []);
 
   const returnArticle = async () => {
     if (!articleTitle) return;
@@ -43,7 +22,7 @@ export const ArticleGenerator = () => {
         body: JSON.stringify({
           title: articleTitle,
           content: artcileContent,
-          userId: "cmjqw2rxp0001ap72t4mtcpkq",
+          userId: "test1",
         }),
       });
     } catch (err) {
