@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Title } from "../_components/title";
 import { ExitIcon } from "../_icons/exitIcon";
 import { RestartQuiz } from "../_components/restartQuiz";
+import { useRouter } from "next/navigation";
 type Quiz = {
   options: string[];
   question: string;
@@ -17,6 +18,7 @@ type MyProps = {
 
 export const QuickTest = ({ onNext, data, current, total }: MyProps) => {
   const [restartQuizState, setRestartQuizState] = useState(false);
+  const router = useRouter();
   return (
     <div className="w-full h-full bg-zinc-100 flex justify-center pt-[120px]">
       <div className="w-[558px] h-72 gap-5 flex flex-col">
@@ -34,7 +36,13 @@ export const QuickTest = ({ onNext, data, current, total }: MyProps) => {
             <ExitIcon />
           </button>
           {restartQuizState && (
-            <RestartQuiz goBack={() => setRestartQuizState(false)} />
+            <RestartQuiz
+              goBack={() => setRestartQuizState(false)}
+              goHome={() => {
+                router.push("/");
+                localStorage.removeItem("quick test");
+              }}
+            />
           )}
         </div>
         <div className="bg-white h-fit w-fit rounded-lg border border-zinc-200 p-7 flex flex-col gap-5">
